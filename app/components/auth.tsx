@@ -13,7 +13,7 @@ export default function Auth({ children }: AuthProps) {
     const pathname = usePathname();
 
     return (
-        <section className="bg-light-grey flex min-h-screen flex-col justify-center p-8">
+        <section className="flex min-h-screen flex-col justify-center bg-light-grey p-8">
             <div className="md:mx-auto">
                 <Image
                     className="h-10 w-[182px]"
@@ -26,10 +26,10 @@ export default function Auth({ children }: AuthProps) {
 
             <section className="mt-16 md:mx-auto md:mt-[51px] md:w-[476px] md:rounded-xl md:bg-white md:p-10">
                 <div className="pb-10">
-                    <h4 className="text-dark-grey text-2xl font-bold xl:text-[32px]">
+                    <h4 className="text-2xl font-bold text-dark-grey xl:text-[32px]">
                         {pathname === "/" ? "Login" : "Create account"}
                     </h4>
-                    <p className="text-grey pt-2 text-base">
+                    <p className="pt-2 text-base text-grey">
                         {pathname === "/"
                             ? "Add your details below to get back into the app"
                             : "Let's get you started sharing your links!"}
@@ -38,14 +38,14 @@ export default function Auth({ children }: AuthProps) {
 
                 <div>
                     {children}
-                    <div className="justify-center pt-6 md:flex md:items-center">
-                        <p className="text-grey text-center text-base">
+                    <div className="justify-center pt-6 md:flex md:items-center md:gap-1">
+                        <p className="text-center text-base text-grey">
                             {pathname == "/"
                                 ? "Don't have an account?"
                                 : " Already have an account?"}
                         </p>
                         <Link
-                            className="text-purple flex justify-center pt-1 text-base md:pt-0"
+                            className="flex justify-center pt-1 text-base text-purple md:pt-0"
                             href={pathname === "/" ? "/register" : "/"}
                         >
                             {pathname === "/" ? "Create account" : "Login"}

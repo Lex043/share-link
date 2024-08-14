@@ -1,9 +1,8 @@
 import Login from "./components/login";
-import Authcard from "./components/auth";
 
 export default function Home() {
     return (
-        <main>
+        <main className="font-instrument-sans">
             <Login />
         </main>
     );

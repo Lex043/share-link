@@ -8,12 +8,17 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                "instrument-sans": ["var(--font-instrument_sans)"],
+            },
+
             colors: {
                 "dark-grey": "#333333",
                 purple: "#633CFF",
                 grey: "#737373",
                 "light-grey": "#FAFAFA",
                 "hover-purple": "#BEADFF",
+                "focus-red": "#FF3939",
             },
         },
     },
