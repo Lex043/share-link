@@ -77,7 +77,7 @@ export default function Login() {
                             <Button className="flex w-full items-end justify-center rounded-lg bg-purple py-3 text-white hover:bg-hover-purple">
                                 {isLoading ? (
                                     <span className="flex items-center justify-center gap-2">
-                                        <Loader />
+                                        <Loader className="animate-spin" />
                                         Login
                                     </span>
                                 ) : (
