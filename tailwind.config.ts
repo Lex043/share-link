@@ -19,6 +19,7 @@ const config: Config = {
                 "light-grey": "#FAFAFA",
                 "hover-purple": "#BEADFF",
                 "focus-red": "#FF3939",
+                "light-purple": "#EFEBFF",
             },
         },
     },
