@@ -9,7 +9,7 @@ export default function DashboardNav() {
     const { isActive, setIsActive } = activeTabStore();
 
     return (
-        <section className="rounded-xl bg-white py-4 pl-6 pr-4 md:p-6">
+        <section className="mx-4 my-4 rounded-xl bg-white py-4 pl-6 pr-4 md:mx-0 md:p-6">
             <div className="flex items-center justify-between">
                 <Image
                     className="h-8 w-8 md:hidden"

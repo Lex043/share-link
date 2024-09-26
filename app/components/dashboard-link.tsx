@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function DashboardLink() {
     return (
-        <section className="mx-4 my-4 max-w-[1440px] rounded-xl bg-white md:mx-0 xl:mx-auto">
+        <section className="mx-4 my-4 rounded-xl bg-white md:mx-0">
             <section className="px-6">
                 <div>
                     <h1 className="pt-6 font-instrument-sans text-2xl font-bold text-dark-grey">
