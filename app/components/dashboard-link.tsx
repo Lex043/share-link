@@ -40,7 +40,7 @@ export default function DashboardLink() {
                         </p>
                     </div>
                 </section>
-                <div className="border-light-purple mb-6 border-t">
+                <div className="mb-6 border-t border-light-purple">
                     <div className="p-4 md:flex md:justify-end">
                         <Button className="mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white opacity-[25%] md:w-fit md:px-7">
                             Save

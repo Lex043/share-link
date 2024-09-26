@@ -15,11 +15,10 @@ export default function useSession() {
                     data: { session },
                 } = await supabase.auth.getSession();
 
-                if (session) {
-                    setUserEmail(session.user?.email || null);
-                    router.push("/dashboard");
-                } else {
+                if (!session) {
                     router.push("/");
+                } else {
+                    setUserEmail(session.user?.email || null);
                 }
             } catch (error) {
                 console.error("Error checking session:", error);

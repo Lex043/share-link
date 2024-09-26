@@ -8,7 +8,7 @@ export const metadata = {
 
 const layout = ({ children }: { children: ReactNode }) => {
     return (
-        <section className="bg-light-grey pb-6 md:p-6">
+        <section className="bg-light-grey pb-6 pt-4 md:p-6">
             <div className="mx-auto max-w-[1440px]">
                 <DashboardNav />
                 {children}
