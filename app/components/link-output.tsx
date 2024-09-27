@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function LinkOutput() {
+export default function LinkOutput({ className }: any) {
     return (
-        <section className="hidden w-[560px] items-center justify-center self-stretch rounded-xl bg-white p-6 lg:flex">
+        <section className={className}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="308"
