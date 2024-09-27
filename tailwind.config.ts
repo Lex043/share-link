@@ -21,6 +21,9 @@ const config: Config = {
                 "focus-red": "#FF3939",
                 "light-purple": "#EFEBFF",
             },
+            boxShadow: {
+                custom: "0px 0px 32px 0px rgba(0, 0, 0, 0.10)",
+            },
         },
     },
     plugins: [],

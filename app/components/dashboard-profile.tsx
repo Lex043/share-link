@@ -8,9 +8,9 @@ export default function DashboardProfile() {
     const { userEmail } = useSession();
 
     return (
-        <section className="mx-4 my-4 md:mx-0">
+        <section className="mx-auto max-w-[1440px]">
             <section className="flex gap-6">
-                <LinkOutput />
+                <LinkOutput className="hidden w-[560px] items-center justify-center self-stretch rounded-xl bg-white p-6 lg:flex" />
                 <section className="w-full rounded-xl bg-white">
                     <section className="flex shrink-0 grow basis-0 flex-col items-start self-stretch px-6 md:p-10">
                         <div>
