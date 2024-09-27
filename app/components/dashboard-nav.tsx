@@ -44,7 +44,7 @@ export default function DashboardNav() {
                                     </div>
 
                                     <p
-                                        className={`${isActive === item.id ? "text-purple" : "text-grey"} hidden text-base font-semibold md:block`}
+                                        className={`${isActive === item.id ? "text-purple" : "text-grey"} hidden text-base font-semibold hover:text-purple md:block`}
                                     >
                                         {item.title}
                                     </p>
@@ -54,7 +54,7 @@ export default function DashboardNav() {
                     </div>
                     <Link
                         href="/preview"
-                        className="rounded-lg border border-purple px-4 py-[11px] md:px-7"
+                        className="rounded-lg border border-purple px-4 py-[11px] hover:bg-light-purple md:px-7"
                     >
                         <Image
                             className="h-5 w-5 md:hidden"
