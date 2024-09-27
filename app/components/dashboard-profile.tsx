@@ -9,10 +9,10 @@ export default function DashboardProfile() {
 
     return (
         <section className="mx-auto max-w-[1440px]">
-            <section className="flex gap-6">
-                <LinkOutput className="hidden w-[560px] items-center justify-center self-stretch rounded-xl bg-white p-6 lg:flex" />
+            <section className="lg:flex lg:gap-4">
+                <LinkOutput />
                 <section className="w-full rounded-xl bg-white">
-                    <section className="flex shrink-0 grow basis-0 flex-col items-start self-stretch px-6 md:p-10">
+                    <section className="p-6 md:p-10">
                         <div>
                             <h1 className="pt-6 font-instrument-sans text-2xl font-bold text-dark-grey">
                                 Profile Details
@@ -22,7 +22,7 @@ export default function DashboardProfile() {
                                 your profile.
                             </p>
                         </div>
-                        <section className="mt-10 w-full pb-6 md:pb-[154px]">
+                        <section className="mt-10 w-full pb-6 md:pb-[114px]">
                             <div className="mt-6 rounded-xl bg-light-grey p-5 md:flex md:items-center md:justify-between">
                                 <h1 className="text-base text-grey md:max-w-60">
                                     Profile picture
