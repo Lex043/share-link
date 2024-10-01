@@ -17,5 +17,9 @@ export default function useFormValidation() {
             .min(8, "password must be at least 8 characters")
             .required("Please check again"),
     });
-    return { RegisterSchema, LoginSchema };
+
+    const LinkSchema = Yup.object().shape({
+        link: Yup.string().url("Please check again").required("Can't be empty"),
+    });
+    return { RegisterSchema, LoginSchema, LinkSchema };
 }
