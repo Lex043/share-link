@@ -1,4 +1,6 @@
 export { default as CopyLinkIcon } from "./CopyLinkIcon";
+export { default as ArrowdownIcon } from "./Arrowdown";
+export { default as ArrowRightIcon } from "./ArrowRight";
 
 // menu list icon
 export { default as GithubIcon } from "./GithubIcon";

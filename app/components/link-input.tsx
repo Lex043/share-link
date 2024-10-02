@@ -2,20 +2,22 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { CopyLinkIcon } from "@/public/assets/svgs";
 import useFormValidation from "../hooks/useFormValidation";
+import { linkStore } from "@/store/link";
 
-export default function LinkInput() {
+export default function LinkInput({ linkId }: { linkId: string }) {
     const { LinkSchema } = useFormValidation();
+    const updateLink = linkStore((state) => state.updateLink);
     return (
         <Formik
             initialValues={{
                 link: "",
             }}
             validationSchema={LinkSchema}
-            onSubmit={async (values) => {
-                console.log(values);
+            onSubmit={async (value) => {
+                console.log(value);
             }}
         >
-            {({ errors, touched }) => (
+            {({ errors, touched, handleChange }) => (
                 <Form>
                     <label
                         htmlFor="Link"
@@ -24,6 +26,12 @@ export default function LinkInput() {
                         Link
                         <Field
                             type="link"
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                handleChange(e);
+                                updateLink(linkId, "link", e.target.value);
+                            }}
                             id="link"
                             name="link"
                             className={`mt-1 rounded-lg border py-3 pl-11 pr-4 text-base outline-none ${errors.link && touched.link ? "border-focus-red text-focus-red focus:border-focus-red focus:ring-focus-red" : "focus:border-purple"}`}
