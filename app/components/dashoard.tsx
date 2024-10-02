@@ -11,8 +11,12 @@ export default function Dashboard() {
     return (
         useSession() && (
             <section className="mx-4 my-4 md:mx-0">
-                {isActive === 1 && <DashboardLink />}
-                {isActive === 2 && <DashboardProfile />}
+                <div className={isActive === 1 ? "block" : "hidden"}>
+                    <DashboardLink />
+                </div>
+                <div className={isActive === 2 ? "block" : "hidden"}>
+                    <DashboardProfile />
+                </div>
             </section>
         )
     );

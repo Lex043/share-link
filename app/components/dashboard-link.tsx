@@ -2,13 +2,13 @@ import React from "react";
 import Button from "./button";
 import CreateLink from "./create-link";
 import { linkStore } from "@/store/link";
-import useCrudLink from "../hooks/useCrudLink";
 import EmptyLink from "./empty-link";
 import LinkOutput from "./link-output";
 
 export default function DashboardLink() {
+    const addEmptyLink = linkStore((state) => state.addEmptyLink);
     const links = linkStore((state) => state.links);
-    const { addNewLink } = useCrudLink();
+
     console.log(links);
 
     return (
@@ -28,7 +28,7 @@ export default function DashboardLink() {
                         </div>
                         <section className="mt-6">
                             <Button
-                                onClick={() => addNewLink()}
+                                onClick={addEmptyLink}
                                 className="w-full rounded-lg border border-purple py-[11px] text-base text-purple hover:bg-light-purple"
                             >
                                 + Add new link
@@ -44,7 +44,9 @@ export default function DashboardLink() {
                     </section>
                     <div className="mb-6 border-t border-light-purple">
                         <div className="p-4 md:flex md:justify-end">
-                            <Button className="mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white opacity-[25%] md:w-fit md:px-7">
+                            <Button
+                                className={`mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white opacity-[25%] md:w-fit md:px-7 ${links.length > 0 ? "opacity-100" : "opacity-[25%]"}`}
+                            >
                                 Save
                             </Button>
                         </div>

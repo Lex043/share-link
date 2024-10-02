@@ -1,8 +1,10 @@
 import React from "react";
 
-export default function Devto(
-    props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
-) {
+interface DevtoProps extends React.SVGProps<SVGSVGElement> {
+    fill?: string;
+}
+
+const Devto: React.FC<DevtoProps> = ({ fill, ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -12,9 +14,9 @@ export default function Devto(
             viewBox="0 0 16 16"
             {...props}
         >
-            <g clip-path="url(#a)">
+            <g clipPath="url(#a)">
                 <path
-                    fill="#737373"
+                    fill={fill}
                     d="M12.25 0h-8.5A3.75 3.75 0 0 0 0 3.75v8.5A3.75 3.75 0 0 0 3.75 16h8.5A3.75 3.75 0 0 0 16 12.25v-8.5A3.75 3.75 0 0 0 12.25 0Z"
                 />
                 <path
@@ -35,4 +37,6 @@ export default function Devto(
             </defs>
         </svg>
     );
-}
+};
+
+export default Devto;

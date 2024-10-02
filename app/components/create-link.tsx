@@ -1,7 +1,7 @@
 import React from "react";
 import { linkStore } from "@/store/link";
 import LinkInput from "./link-input";
-import useCrudLink from "../hooks/useCrudLink";
+import Platform from "./platform";
 
 export default function CreateLink() {
     const links = linkStore((state) => state.links);
@@ -25,11 +25,11 @@ export default function CreateLink() {
                             <p className="text-base text-grey">Remove</p>
                         </div>
                         <div className="py-3">
-                            <LinkInput />
+                            <Platform linkId={link.id} />
                         </div>
                         <div className="relative py-3">
                             {" "}
-                            <LinkInput />
+                            <LinkInput linkId={link.id} />
                         </div>
                     </section>
                 ))}
