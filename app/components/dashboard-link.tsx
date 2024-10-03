@@ -9,8 +9,6 @@ export default function DashboardLink() {
     const addEmptyLink = linkStore((state) => state.addEmptyLink);
     const links = linkStore((state) => state.links);
 
-    console.log(links);
-
     return (
         <section className="mx-auto max-w-[1440px]">
             <section className="lg:flex lg:gap-4">
@@ -45,7 +43,7 @@ export default function DashboardLink() {
                     <div className="mb-6 border-t border-light-purple">
                         <div className="p-4 md:flex md:justify-end">
                             <Button
-                                className={`mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white opacity-[25%] md:w-fit md:px-7 ${links.length > 0 ? "opacity-100" : "opacity-[25%]"}`}
+                                className={`mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white md:w-fit md:px-7 ${links.length > 0 ? "opacity-100" : "opacity-[25%]"}`}
                             >
                                 Save
                             </Button>

@@ -4,7 +4,7 @@ interface TwitchProps extends React.SVGProps<SVGSVGElement> {
     fill?: string;
 }
 
-const Twitch: React.FC<TwitchProps> = ({ fill = "", ...props }) => {
+const Twitch: React.FC<TwitchProps> = ({ fill, ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

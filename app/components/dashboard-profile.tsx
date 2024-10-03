@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Button from "./button";
 import Image from "next/image";
 import LinkOutput from "./link-output";
@@ -6,11 +8,23 @@ import useSession from "../hooks/useSession";
 
 export default function DashboardProfile() {
     const { userEmail } = useSession();
+    const [formValues, setFormValues] = useState({
+        firstName: "",
+        lastName: "",
+    });
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
 
     return (
         <section className="mx-auto max-w-[1440px]">
             <section className="lg:flex lg:gap-4">
-                <LinkOutput />
+                <LinkOutput formValues={formValues} />
                 <section className="w-full rounded-xl bg-white">
                     <section className="p-6 md:p-10">
                         <div>
@@ -51,7 +65,7 @@ export default function DashboardProfile() {
                             <div className="mt-6 rounded-xl bg-light-grey p-5">
                                 <form action="" className="flex flex-col gap-3">
                                     <label
-                                        htmlFor=""
+                                        htmlFor="firstName"
                                         className="flex flex-col md:flex-row md:items-center md:gap-4"
                                     >
                                         <p className="flex pb-1 text-xs text-grey md:w-[240px] md:text-base">
@@ -62,11 +76,13 @@ export default function DashboardProfile() {
                                             className="rounded-lg border border-light-purple px-4 py-3 text-base text-dark-grey outline-none placeholder:text-dark-grey md:w-full"
                                             type="text"
                                             placeholder="Ben"
-                                            name=""
+                                            name="firstName"
+                                            value={formValues.firstName}
+                                            onChange={handleInputChange}
                                         />
                                     </label>
                                     <label
-                                        htmlFor=""
+                                        htmlFor="lastName"
                                         className="flex flex-col md:flex-row md:items-center md:gap-4"
                                     >
                                         <p className="flex pb-1 text-xs text-grey md:w-[240px] md:text-base">
@@ -76,7 +92,9 @@ export default function DashboardProfile() {
                                             className="rounded-lg border border-light-purple px-4 py-3 text-base text-dark-grey outline-none placeholder:text-dark-grey md:w-full"
                                             type="text"
                                             placeholder="Wright"
-                                            name=""
+                                            name="lastName"
+                                            value={formValues.lastName}
+                                            onChange={handleInputChange}
                                         />
                                     </label>
                                     <label

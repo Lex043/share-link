@@ -11,6 +11,7 @@ interface LinkStore {
     links: Link[];
     addEmptyLink: () => void;
     updateLink: (id: string, field: string, value: string) => void;
+    deleteLink: (id: string) => void;
 }
 
 export const linkStore = create<LinkStore>((set) => ({
@@ -27,6 +28,12 @@ export const linkStore = create<LinkStore>((set) => ({
             links: state.links.map((link) =>
                 link.id === id ? { ...link, [field]: value } : link
             ),
+        }));
+    },
+
+    deleteLink: (id) => {
+        set((state) => ({
+            links: state.links.filter((link) => link.id !== id),
         }));
     },
 }));

@@ -5,6 +5,7 @@ import Platform from "./platform";
 
 export default function CreateLink() {
     const links = linkStore((state) => state.links);
+    const deleteLink = linkStore((state) => state.deleteLink);
 
     return (
         <section className="relative flex flex-col gap-6">
@@ -22,7 +23,12 @@ export default function CreateLink() {
                                 </div>
                                 <span>#{index + 1}</span>
                             </div>
-                            <p className="text-base text-grey">Remove</p>
+                            <p
+                                onClick={() => deleteLink(link.id)}
+                                className="cursor-pointer text-base text-grey"
+                            >
+                                Remove
+                            </p>
                         </div>
                         <div className="py-3">
                             <Platform linkId={link.id} />
