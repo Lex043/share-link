@@ -4,7 +4,7 @@ interface ArrowRightProps extends React.SVGProps<SVGSVGElement> {
     fill?: string;
 }
 
-const ArrowRight: React.FC<ArrowRightProps> = ({ fill = "", ...props }) => {
+const ArrowRight: React.FC<ArrowRightProps> = ({ fill, ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

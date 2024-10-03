@@ -1,3 +1,5 @@
+import React from "react";
+
 const PasswordIcon = (props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) => {
     return (
         <svg

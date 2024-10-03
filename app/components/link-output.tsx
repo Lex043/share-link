@@ -56,7 +56,7 @@ const platformBgcolor: Record<string, string> = {
     "stack overflow": "#EC7100",
 };
 
-export default function LinkOutput() {
+export default function LinkOutput({ formValues }: any) {
     const { userEmail } = useSession();
     const links = linkStore((state) => state.links);
 
@@ -93,9 +93,14 @@ export default function LinkOutput() {
             <div className="absolute mb-[30px] mt-[53px] w-[237px]">
                 <div className="mx-auto h-[104px] w-[104px] rounded-[104px] bg-light-grey"></div>
                 <div className="mx-auto mt-[25px] w-[160px]">
-                    <h1 className="h-4 w-full rounded-lg bg-[#eee] text-[32px] font-bold leading-[150%] text-dark-grey">
-                        {}
-                    </h1>
+                    {formValues?.firstName || formValues?.lastName ? (
+                        <h1 className="text-center text-lg font-semibold text-dark-grey">
+                            {" "}
+                            {formValues?.firstName} {formValues?.lastName}
+                        </h1>
+                    ) : (
+                        <h1 className="h-4 w-full rounded-lg bg-[#eee] text-[32px] font-bold leading-[150%] text-dark-grey"></h1>
+                    )}
                     <p className="mt-2 text-center text-base text-grey">
                         {userEmail}
                     </p>

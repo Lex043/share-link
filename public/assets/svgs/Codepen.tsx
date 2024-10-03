@@ -4,7 +4,7 @@ interface CodepenProps extends React.SVGProps<SVGSVGElement> {
     fill?: string;
 }
 
-const Codepen: React.FC<CodepenProps> = ({ fill = "", ...props }) => {
+const Codepen: React.FC<CodepenProps> = ({ fill, ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

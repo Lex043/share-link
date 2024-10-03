@@ -13,7 +13,6 @@ interface DropdownOption {
 
 export default function Platform({ linkId }: { linkId: string }) {
     const updateLink = linkStore((state) => state.updateLink);
-
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
         null
