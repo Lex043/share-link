@@ -1,30 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Button from "./button";
 import Image from "next/image";
 import LinkOutput from "./link-output";
 import useSession from "../hooks/useSession";
+import { UserDataStore } from "@/store/user-data";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DashboardProfile() {
+    const { userData, setUserData } = UserDataStore((state) => ({
+        userData: state.userData,
+        setUserData: state.setUserData,
+    }));
+    const fileInput = useRef<HTMLInputElement>(null);
     const { userEmail } = useSession();
-    const [formValues, setFormValues] = useState({
-        firstName: "",
-        lastName: "",
-    });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormValues({
-            ...formValues,
+        setUserData({
+            ...userData,
             [name]: value,
         });
+    };
+
+    useEffect(() => {
+        if (userEmail && userData.email === "") {
+            setUserData({ email: userEmail });
+        }
+    }, [userEmail, userData.email, setUserData]);
+
+    const handleClick = () => {
+        fileInput.current?.click();
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file && file.size / 1024 < 1024) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                setUserData({ ...userData, imageUrl: reader.result as string });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            toast.error("image is greater than 1mb", {
+                position: "bottom-right",
+                style: {
+                    background: "#FF0000",
+                    color: "#FFF",
+                },
+            });
+        }
     };
 
     return (
         <section className="mx-auto max-w-[1440px]">
             <section className="lg:flex lg:gap-4">
-                <LinkOutput formValues={formValues} />
+                <LinkOutput />
                 <section className="w-full rounded-xl bg-white">
                     <section className="p-6 md:p-10">
                         <div>
@@ -41,21 +74,58 @@ export default function DashboardProfile() {
                                 <h1 className="text-base text-grey md:max-w-60">
                                     Profile picture
                                 </h1>
-                                <div className="pt-4 md:flex md:items-center md:gap-6">
-                                    <div className="w-48 rounded-xl bg-light-purple py-[60px]">
+                                <div
+                                    onClick={handleClick}
+                                    className="pt-4 md:flex md:items-center md:gap-6"
+                                >
+                                    <div
+                                        className="relative w-48 cursor-pointer rounded-xl bg-light-purple py-[60px]"
+                                        style={{
+                                            backgroundImage: userData?.imageUrl
+                                                ? `url(${userData.imageUrl})`
+                                                : "none",
+                                            backgroundSize: "cover",
+                                            backgroundPosition: "center",
+                                        }}
+                                    >
+                                        {userData?.imageUrl && (
+                                            <div className="absolute inset-0 rounded-xl bg-black opacity-50"></div>
+                                        )}
                                         <div className="mx-auto h-10 w-10">
-                                            <Image
-                                                className="h-full w-full"
-                                                src="/assets/images/icon-upload-image.svg"
-                                                width={100}
-                                                height={100}
-                                                alt="logo Icon"
-                                            />
+                                            {!userData?.imageUrl && (
+                                                <Image
+                                                    className="h-full w-full"
+                                                    src="/assets/images/icon-upload-image.svg"
+                                                    width={100}
+                                                    height={100}
+                                                    alt="logo Icon"
+                                                />
+                                            )}
                                         </div>
-                                        <h1 className="pt-2 text-center text-base font-bold text-purple">
-                                            + Upload Image
+
+                                        <input
+                                            type="file"
+                                            ref={fileInput}
+                                            name="image"
+                                            id="image"
+                                            accept="image/png, image/jpeg"
+                                            className="hidden"
+                                            onChange={handleFileChange}
+                                        />
+
+                                        <h1
+                                            className={`relative pt-2 text-center text-base font-bold ${
+                                                userData?.imageUrl
+                                                    ? "text-white"
+                                                    : "text-purple"
+                                            }`}
+                                        >
+                                            {userData?.imageUrl
+                                                ? "Change Image"
+                                                : "+ Upload Image"}
                                         </h1>
                                     </div>
+
                                     <p className="mt-6 text-xs text-grey md:mt-0 md:leading-relaxed">
                                         Image must be below 1024x1024px. <br />
                                         Use PNG or JPG format.
@@ -77,7 +147,7 @@ export default function DashboardProfile() {
                                             type="text"
                                             placeholder="Ben"
                                             name="firstName"
-                                            value={formValues.firstName}
+                                            value={userData.firstName}
                                             onChange={handleInputChange}
                                         />
                                     </label>
@@ -93,12 +163,12 @@ export default function DashboardProfile() {
                                             type="text"
                                             placeholder="Wright"
                                             name="lastName"
-                                            value={formValues.lastName}
+                                            value={userData.lastName}
                                             onChange={handleInputChange}
                                         />
                                     </label>
                                     <label
-                                        htmlFor=""
+                                        htmlFor="email"
                                         className="flex flex-col md:flex-row md:items-center md:gap-4"
                                     >
                                         <p className="pb-1 text-xs text-grey md:w-[240px] md:text-base">
@@ -107,8 +177,11 @@ export default function DashboardProfile() {
                                         <input
                                             className="rounded-lg border border-light-purple px-4 py-3 text-base text-dark-grey outline-none placeholder:text-dark-grey md:w-full"
                                             type="text"
-                                            placeholder={userEmail ?? undefined}
-                                            name=""
+                                            disabled
+                                            name="email"
+                                            value={userEmail || ""}
+                                            // placeholder="e.g. email@example.com"
+                                            onChange={handleInputChange}
                                         />
                                     </label>
                                 </form>
@@ -124,6 +197,7 @@ export default function DashboardProfile() {
                     </div>
                 </section>
             </section>
+            <ToastContainer />
         </section>
     );
 }

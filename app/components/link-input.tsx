@@ -1,3 +1,5 @@
+"se client";
+
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { CopyLinkIcon } from "@/public/assets/svgs";
@@ -7,17 +9,21 @@ import { linkStore } from "@/store/link";
 export default function LinkInput({ linkId }: { linkId: string }) {
     const { LinkSchema } = useFormValidation();
     const updateLink = linkStore((state) => state.updateLink);
+    const links = linkStore((state) => state.links);
+
+    const existingLink = links.find((link) => link.id === linkId)?.link || "";
+
     return (
         <Formik
             initialValues={{
-                link: "",
+                link: existingLink,
             }}
             validationSchema={LinkSchema}
             onSubmit={async (value) => {
                 console.log(value);
             }}
         >
-            {({ errors, touched, handleChange }) => (
+            {({ errors, touched, handleChange, values }) => (
                 <Form>
                     <label
                         htmlFor="Link"
@@ -34,6 +40,7 @@ export default function LinkInput({ linkId }: { linkId: string }) {
                             }}
                             id="link"
                             name="link"
+                            value={values.link}
                             className={`mt-1 rounded-lg border py-3 pl-11 pr-4 text-base outline-none ${errors.link && touched.link ? "border-focus-red text-focus-red focus:border-focus-red focus:ring-focus-red" : "focus:border-purple"}`}
                             placeholder="Enter your link"
                         />
