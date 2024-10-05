@@ -2,8 +2,10 @@
 
 import React from "react";
 import useSession from "../hooks/useSession";
+import Image from "next/image";
 import { linkStore } from "@/store/link";
 import EmptyProfile from "./empty-profile";
+import { UserDataStore } from "@/store/user-data";
 import {
     GithubIcon,
     FrontendMentor,
@@ -56,9 +58,12 @@ const platformBgcolor: Record<string, string> = {
     "stack overflow": "#EC7100",
 };
 
-export default function LinkOutput({ formValues }: any) {
+export default function LinkOutput() {
     const { userEmail } = useSession();
     const links = linkStore((state) => state.links);
+    const { userData } = UserDataStore((state) => ({
+        userData: state.userData,
+    }));
 
     return (
         <section className="relative hidden w-[560px] items-center justify-center rounded-xl bg-white p-6 py-[101px] lg:flex">
@@ -90,13 +95,23 @@ export default function LinkOutput({ formValues }: any) {
                 />
             </svg>
 
-            <div className="absolute mb-[30px] mt-[53px] w-[237px]">
-                <div className="mx-auto h-[104px] w-[104px] rounded-[104px] bg-light-grey"></div>
+            <div className="absolute mb-[30px] mt-[100px] w-[237px]">
+                {userData.imageUrl ? (
+                    <Image
+                        width={300}
+                        height={300}
+                        alt={userData.firstName}
+                        src={userData.imageUrl}
+                        className="mx-auto h-[104px] w-[104px] rounded-[104px] bg-light-grey"
+                    />
+                ) : (
+                    <div className="mx-auto h-[104px] w-[104px] rounded-[104px] bg-light-grey"></div>
+                )}
                 <div className="mx-auto mt-[25px] w-[160px]">
-                    {formValues?.firstName || formValues?.lastName ? (
+                    {userData?.firstName || userData?.lastName ? (
                         <h1 className="text-center text-lg font-semibold text-dark-grey">
                             {" "}
-                            {formValues?.firstName} {formValues?.lastName}
+                            {userData?.firstName} {userData?.lastName}
                         </h1>
                     ) : (
                         <h1 className="h-4 w-full rounded-lg bg-[#eee] text-[32px] font-bold leading-[150%] text-dark-grey"></h1>

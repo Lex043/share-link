@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ArrowdownIcon } from "@/public/assets/svgs";
 import { menuList } from "@/utils/menuList";
-import { linkStore } from "@/store/link";
+import { linkStore, dropdownStore } from "@/store/link";
 
 interface DropdownOption {
     id: number;
@@ -13,14 +13,15 @@ interface DropdownOption {
 
 export default function Platform({ linkId }: { linkId: string }) {
     const updateLink = linkStore((state) => state.updateLink);
+    const { selectedOptions, setSelectedOption } = dropdownStore();
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
-        null
-    );
+
+    const selectedOption = selectedOptions[linkId] || null;
+
     const toggleDropdown = () => setIsOpen(!isOpen);
 
     const handleOptionSelect = (option: DropdownOption) => {
-        setSelectedOption(option);
+        setSelectedOption(linkId, option);
         updateLink(linkId, "platform", option.label);
         setIsOpen(false);
     };
