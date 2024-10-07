@@ -59,8 +59,8 @@ export default function Signup() {
                             Create Password
                             <Field
                                 type="password"
-                                id="createPassword"
-                                name="createPassword"
+                                id="password"
+                                name="password"
                                 className={`mt-1 rounded-lg border py-3 pl-11 pr-4 text-base outline-none ${errors.password && touched.password ? "border-focus-red text-focus-red focus:border-focus-red focus:ring-focus-red" : "focus:border-purple"}`}
                                 placeholder="At least 8 characters"
                             />

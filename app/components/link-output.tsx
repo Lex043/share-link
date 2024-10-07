@@ -107,14 +107,14 @@ export default function LinkOutput() {
                 ) : (
                     <div className="mx-auto h-[104px] w-[104px] rounded-[104px] bg-light-grey"></div>
                 )}
-                <div className="mx-auto mt-[25px] w-[160px]">
+                <div className="mx-auto mt-[25px]">
                     {userData?.firstName || userData?.lastName ? (
                         <h1 className="text-center text-lg font-semibold text-dark-grey">
                             {" "}
                             {userData?.firstName} {userData?.lastName}
                         </h1>
                     ) : (
-                        <h1 className="h-4 w-full rounded-lg bg-[#eee] text-[32px] font-bold leading-[150%] text-dark-grey"></h1>
+                        <h1 className="mx-auto h-4 w-[160px] rounded-lg bg-[#eee] text-[32px] font-bold leading-[150%] text-dark-grey"></h1>
                     )}
                     <p className="mt-2 text-center text-base text-grey">
                         {userEmail}
