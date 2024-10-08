@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 export default function useSession() {
     const pathname = usePathname();
     const [userEmail, setUserEmail] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const supabase = createClient();
     useEffect(() => {
@@ -21,14 +23,17 @@ export default function useSession() {
                     router.push("/");
                 } else {
                     setUserEmail(session?.user?.email || null);
+                    setUserId(session?.user?.id || null);
                 }
             } catch (error) {
                 console.error("Error checking session:", error);
+            } finally {
+                setIsLoading(false); // Set loading to false after checking session
             }
         };
 
         checkSession();
     }, [router, supabase]);
 
-    return { userEmail };
+    return { userEmail, userId, isLoading };
 }

@@ -1,13 +1,67 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import Button from "./button";
 import CreateLink from "./create-link";
 import { linkStore } from "@/store/link";
+import useSession from "../hooks/useSession";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EmptyLink from "./empty-link";
 import LinkOutput from "./link-output";
+import Loader from "@/public/assets/svgs/Loader";
 
 export default function DashboardLink() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const supabase = createClient();
     const addEmptyLink = linkStore((state) => state.addEmptyLink);
     const links = linkStore((state) => state.links);
+    const { userId } = useSession();
+
+    const saveUserLinks = async () => {
+        try {
+            setIsLoading(true);
+            const mappedLinks = links.map((link) => ({
+                id: link.id,
+                platform: link.platform,
+                link: link.link,
+                profile_id: userId,
+            }));
+            const { error } = await supabase
+                .from("devlink_links")
+                .upsert(mappedLinks);
+
+            if (error) {
+                toast.error(`${error.message}`, {
+                    position: "bottom-right",
+                    style: {
+                        background: "#FF0000",
+                        color: "#FFF",
+                    },
+                });
+                setIsLoading(false);
+            } else {
+                setIsLoading(false);
+                toast.success("Links saved successfully", {
+                    position: "bottom-right",
+                    style: {
+                        background: "#008000",
+                        color: "#FFF",
+                    },
+                });
+            }
+        } catch (error) {
+            toast.error(`${error}`, {
+                position: "bottom-right",
+                style: {
+                    background: "#FF0000",
+                    color: "#FFF",
+                },
+            });
+            setIsLoading(false);
+        }
+    };
 
     return (
         <section className="mx-auto max-w-[1440px]">
@@ -43,13 +97,22 @@ export default function DashboardLink() {
                     <div className="mb-6 border-t border-light-purple">
                         <div className="p-4 md:flex md:justify-end">
                             <Button
+                                onClick={saveUserLinks}
                                 className={`mt-4 w-full rounded-lg bg-purple py-[11px] text-base text-white md:w-fit md:px-7 ${links.length > 0 ? "opacity-100" : "opacity-[25%]"}`}
                             >
-                                Save
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <Loader className="animate-spin" />
+                                        Save
+                                    </span>
+                                ) : (
+                                    "Save"
+                                )}
                             </Button>
                         </div>
                     </div>
                 </section>
+                <ToastContainer />
             </section>
         </section>
     );
