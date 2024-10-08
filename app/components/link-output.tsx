@@ -3,68 +3,15 @@
 import React from "react";
 import useSession from "../hooks/useSession";
 import Image from "next/image";
-import { linkStore } from "@/store/link";
+import useFetchUserData from "../hooks/useFetchUserData";
 import EmptyProfile from "./empty-profile";
-import { UserDataStore } from "@/store/user-data";
-import {
-    GithubIcon,
-    FrontendMentor,
-    TwitterIcon,
-    YoutubeIcon,
-    FacebookIcon,
-    CodepenIcon,
-    CodewarsIcon,
-    TwitchIcon,
-    LinkedInIcon,
-    GitlabIcon,
-    FreecodecampIcon,
-    HashnodeIcon,
-    StackoverflowIcon,
-    DevtoIcon,
-    ArrowRightIcon,
-} from "@/public/assets/svgs";
-
-const platformIcons: Record<string, JSX.Element> = {
-    github: <GithubIcon className="fill-white" />,
-    "frontend mentor": <FrontendMentor className="fill-grey" />,
-    twitter: <TwitterIcon className="fill-white" />,
-    linkedin: <LinkedInIcon className="fill-white" />,
-    youtube: <YoutubeIcon className="fill-white" />,
-    facebook: <FacebookIcon className="fill-white" />,
-    twitch: <TwitchIcon className="fill-white" />,
-    "dev.to": <DevtoIcon className="fill-grey" />,
-    codewars: <CodewarsIcon className="fill-white" />,
-    codepen: <CodepenIcon className="fill-white" />,
-    freecodecamp: <FreecodecampIcon className="fill-white" />,
-    gitlab: <GitlabIcon className="fill-white" />,
-    hashnode: <HashnodeIcon className="fill-white" />,
-    "stack overflow": <StackoverflowIcon className="fill-white" />,
-};
-
-const platformBgcolor: Record<string, string> = {
-    github: "#1A1A1A",
-    "frontend mentor": "#FFF",
-    twitter: "#43B7E9",
-    linkedin: "#2D68FF",
-    youtube: "#EE3939",
-    facebook: "#2442AC",
-    twitch: "#EE3FC8",
-    "dev.to": "#333333",
-    codewars: "#8A1A50",
-    codepen: "#302267",
-    freecodecamp: "#302267",
-    gitlab: "#EB4925",
-    hashnode: "#0330D1",
-    "stack overflow": "#EC7100",
-};
+import { platformIcons, platformBgcolor } from "@/utils/mapIcon";
+import { ArrowRightIcon } from "@/public/assets/svgs";
 
 export default function LinkOutput() {
-    const { userEmail } = useSession();
-    const links = linkStore((state) => state.links);
-    const { userData } = UserDataStore((state) => ({
-        userData: state.userData,
-    }));
-
+    const { userEmail, userId, isLoading } = useSession();
+    const { userData, links } = useFetchUserData(userId, isLoading);
+    
     return (
         <section className="relative hidden w-[560px] items-center justify-center rounded-xl bg-white p-6 py-[101px] lg:flex">
             <svg

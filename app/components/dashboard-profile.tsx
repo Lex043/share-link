@@ -1,21 +1,25 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import Button from "./button";
 import Image from "next/image";
 import LinkOutput from "./link-output";
+import Loader from "@/public/assets/svgs/Loader";
 import useSession from "../hooks/useSession";
 import { UserDataStore } from "@/store/user-data";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function DashboardProfile() {
+    const supabase = createClient();
     const { userData, setUserData } = UserDataStore((state) => ({
         userData: state.userData,
         setUserData: state.setUserData,
     }));
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const fileInput = useRef<HTMLInputElement>(null);
-    const { userEmail } = useSession();
+    const { userEmail, userId } = useSession();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -51,6 +55,46 @@ export default function DashboardProfile() {
                     color: "#FFF",
                 },
             });
+        }
+    };
+
+    const saveUserProfile = async () => {
+        try {
+            setIsLoading(true);
+            const { error } = await supabase.from("devlink_profiles").upsert({
+                id: userId,
+                first_name: userData.firstName,
+                last_name: userData.lastName,
+                ...(userData.imageUrl && { image_url: userData.imageUrl }),
+            });
+            if (error) {
+                toast.error(`${error.message}`, {
+                    position: "bottom-right",
+                    style: {
+                        background: "#FF0000",
+                        color: "#FFF",
+                    },
+                });
+                setIsLoading(false);
+            } else {
+                toast.success("Profile saved successfully", {
+                    position: "bottom-right",
+                    style: {
+                        background: "#008000",
+                        color: "#FFF",
+                    },
+                });
+                setIsLoading(false);
+            }
+        } catch (error) {
+            toast.error(`${error}`, {
+                position: "bottom-right",
+                style: {
+                    background: "#FF0000",
+                    color: "#FFF",
+                },
+            });
+            setIsLoading(false);
         }
     };
 
@@ -180,7 +224,7 @@ export default function DashboardProfile() {
                                             disabled
                                             name="email"
                                             value={userEmail || ""}
-                                            // placeholder="e.g. email@example.com"
+                                            placeholder="e.g. email@example.com"
                                             onChange={handleInputChange}
                                         />
                                     </label>
@@ -190,8 +234,18 @@ export default function DashboardProfile() {
                     </section>
                     <div className="border-t border-light-purple">
                         <div className="p-4 md:flex md:justify-end">
-                            <Button className="w-full rounded-lg bg-purple py-[11px] text-base text-white md:w-fit md:px-7">
-                                Save
+                            <Button
+                                onClick={saveUserProfile}
+                                className="w-full rounded-lg bg-purple py-[11px] text-base text-white md:w-fit md:px-7"
+                            >
+                                {isLoading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <Loader className="animate-spin" />
+                                        Save
+                                    </span>
+                                ) : (
+                                    "Save"
+                                )}
                             </Button>
                         </div>
                     </div>

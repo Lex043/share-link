@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-
-interface DropdownOption {
-    id: number;
-    icon: JSX.Element;
-    label: string;
-}
+import { createClient } from "@/utils/supabase/client";
 
 interface Link {
     id: string;
@@ -18,11 +13,6 @@ interface LinkStore {
     addEmptyLink: () => void;
     updateLink: (id: string, field: string, value: string) => void;
     deleteLink: (id: string) => void;
-}
-
-interface DropdownStore {
-    selectedOptions: { [key: string]: DropdownOption | null };
-    setSelectedOption: (linkId: string, option: DropdownOption) => void;
 }
 
 export const linkStore = create<LinkStore>((set) => ({
@@ -42,17 +32,24 @@ export const linkStore = create<LinkStore>((set) => ({
         }));
     },
 
-    deleteLink: (id) => {
-        set((state) => ({
-            links: state.links.filter((link) => link.id !== id),
-        }));
-    },
-}));
+    deleteLink: async (id) => {
+        const supabase = createClient();
 
-export const dropdownStore = create<DropdownStore>((set) => ({
-    selectedOptions: {},
-    setSelectedOption: (linkId: string, option: DropdownOption) =>
-        set((state) => ({
-            selectedOptions: { ...state.selectedOptions, [linkId]: option },
-        })),
+        try {
+            const { error } = await supabase
+                .from("devlink_links")
+                .delete()
+                .eq("id", id);
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            set((state) => ({
+                links: state.links.filter((link) => link.id !== id),
+            }));
+        } catch (err) {
+            console.error("Error deleting link:", err);
+        }
+    },
 }));
