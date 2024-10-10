@@ -11,7 +11,7 @@ import { ArrowRightIcon } from "@/public/assets/svgs";
 export default function LinkOutput() {
     const { userEmail, userId, isLoading } = useSession();
     const { userData, links } = useFetchUserData(userId, isLoading);
-    
+
     return (
         <section className="relative hidden w-[560px] items-center justify-center rounded-xl bg-white p-6 py-[101px] lg:flex">
             <svg
