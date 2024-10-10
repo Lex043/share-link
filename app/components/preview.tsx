@@ -7,12 +7,39 @@ import Image from "next/image";
 import Button from "./button";
 import EmptyProfile from "./empty-profile";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
+import { usePathname } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
 import { platformIcons, platformBgcolor } from "@/utils/mapIcon";
 import { ArrowRightIcon } from "@/public/assets/svgs";
 
 export default function Preview() {
     const { userEmail, userId, isLoading } = useSession();
     const { userData, links } = useFetchUserData(userId, isLoading);
+    const pathname = usePathname();
+
+    const handleCopyText = async () => {
+        const baseUrl = window.location.origin;
+        const fullUrl = `${baseUrl}${pathname}`;
+        try {
+            await navigator.clipboard.writeText(fullUrl);
+            toast.success("The link has been copied to your clickboard", {
+                position: "bottom-right",
+                style: {
+                    background: "#000",
+                    color: "#FFF",
+                },
+            });
+        } catch (error) {
+            toast.error(error as string, {
+                position: "bottom-right",
+                style: {
+                    background: "#000",
+                    color: "#FFF",
+                },
+            });
+        }
+    };
 
     return (
         <section className="md:relative">
@@ -25,7 +52,10 @@ export default function Preview() {
                         >
                             Back to Editor
                         </Link>
-                        <Button className="rounded-lg bg-purple px-[27px] py-[11px] text-base leading-[150%] text-white">
+                        <Button
+                            onClick={handleCopyText}
+                            className="rounded-lg bg-purple px-[27px] py-[11px] text-base leading-[150%] text-white"
+                        >
                             Share Link
                         </Button>
                     </div>
@@ -96,6 +126,7 @@ export default function Preview() {
                             </section>
                         </div>
                     </div>
+                    <ToastContainer />
                 </section>
             </section>
         </section>

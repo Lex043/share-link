@@ -85,7 +85,9 @@ export default function DashboardLink() {
                             >
                                 + Add new link
                             </Button>
-                            <div className="no-scrollbar mt-6 h-[45vh] overflow-x-hidden overflow-y-scroll">
+                            <div
+                                className={`no-scrollbar ${links.length > 0 ? "h-[45vh] overflow-x-hidden overflow-y-scroll" : ""} mt-6`}
+                            >
                                 {links.length > 0 ? (
                                     <CreateLink />
                                 ) : (
