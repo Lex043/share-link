@@ -1,67 +1,21 @@
-"use client";
-
-import React, { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import React from "react";
 import Button from "./button";
 import CreateLink from "./create-link";
-import { linkStore } from "@/store/link";
-import useSession from "../hooks/useSession";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyLink from "./empty-link";
 import LinkOutput from "./link-output";
 import Loader from "@/public/assets/svgs/Loader";
+import useSaveUserLink from "../hooks/useSaveUserLink";
 
 export default function DashboardLink() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const supabase = createClient();
-    const addEmptyLink = linkStore((state) => state.addEmptyLink);
-    const links = linkStore((state) => state.links);
-    const { userId } = useSession();
-
-    const saveUserLinks = async () => {
-        try {
-            setIsLoading(true);
-            const mappedLinks = links.map((link) => ({
-                id: link.id,
-                platform: link.platform,
-                link: link.link,
-                profile_id: userId,
-            }));
-            const { error } = await supabase
-                .from("devlink_links")
-                .upsert(mappedLinks);
-
-            if (error) {
-                toast.error(`${error.message}`, {
-                    position: "bottom-right",
-                    style: {
-                        background: "#FF0000",
-                        color: "#FFF",
-                    },
-                });
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
-                toast.success("Links saved successfully", {
-                    position: "bottom-right",
-                    style: {
-                        background: "#008000",
-                        color: "#FFF",
-                    },
-                });
-            }
-        } catch (error) {
-            toast.error(`${error}`, {
-                position: "bottom-right",
-                style: {
-                    background: "#FF0000",
-                    color: "#FFF",
-                },
-            });
-            setIsLoading(false);
-        }
-    };
+    const {
+        handleAddLink,
+        saveUserLinks,
+        linksContainerRef,
+        isLoading,
+        links,
+    } = useSaveUserLink();
 
     return (
         <section className="mx-auto max-w-[1440px]">
@@ -69,7 +23,7 @@ export default function DashboardLink() {
                 <LinkOutput />
                 <section className="w-full rounded-xl bg-white">
                     <section className="p-6 md:p-10">
-                        <div>
+                        <div className="mb-10">
                             <h1 className="font-instrument-sans text-2xl font-bold text-dark-grey">
                                 Customize your links
                             </h1>
@@ -80,12 +34,13 @@ export default function DashboardLink() {
                         </div>
                         <section className="mt-6">
                             <Button
-                                onClick={addEmptyLink}
+                                onClick={handleAddLink}
                                 className="w-full rounded-lg border border-purple py-[11px] text-base text-purple hover:bg-light-purple"
                             >
                                 + Add new link
                             </Button>
                             <div
+                                ref={linksContainerRef}
                                 className={`no-scrollbar ${links.length > 0 ? "h-[45vh] overflow-x-hidden overflow-y-scroll" : ""} mt-6`}
                             >
                                 {links.length > 0 ? (
@@ -113,8 +68,8 @@ export default function DashboardLink() {
                             </Button>
                         </div>
                     </div>
+                    <ToastContainer />
                 </section>
-                <ToastContainer />
             </section>
         </section>
     );
