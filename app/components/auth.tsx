@@ -13,7 +13,7 @@ export default function Auth({ children }: AuthProps) {
     const pathname = usePathname();
 
     return (
-        <section className="flex min-h-screen flex-col justify-center bg-light-grey p-8">
+        <section className="flex min-h-svh flex-col justify-center bg-light-grey p-8">
             <div className="md:mx-auto">
                 <Image
                     className="h-10 w-[182px]"
