@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import DashboardProfile from "../components/dashboard-profile";
-import DashboardLink from "../components/dashboard-link";
+import DashboardProfile from "./dashboard-profile";
+import DashboardLink from "./dashboard-link";
 import { activeTabStore } from "@/store/active-tab";
 import useSession from "../hooks/useSession";
 

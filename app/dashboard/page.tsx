@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "../components/dashoard";
+import Dashboard from "../../components/dashoard";
 
 export default function page() {
     return (

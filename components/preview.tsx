@@ -42,7 +42,7 @@ export default function Preview() {
     };
 
     return (
-        <section className="md:relative">
+        <section className="mb-3 md:relative">
             <section className="rounded-b-[32px] py-4 md:h-[357px] md:bg-purple md:px-6">
                 <div className="mx-auto max-w-[1440px]">
                     <div className="flex items-center justify-between px-6 md:rounded-xl md:bg-white md:py-4">
@@ -89,37 +89,43 @@ export default function Preview() {
                             <section className="no-scrollbar mt-14 h-[45vh] overflow-x-hidden overflow-y-scroll">
                                 <div className="flex flex-col gap-5">
                                     {links.length === 0 ? (
-                                        <EmptyProfile />
+                                        <div> </div>
                                     ) : (
                                         links.map((link) => (
-                                            <div
+                                            <a
                                                 key={link.id}
-                                                className={`flex h-11 w-full items-center justify-between rounded-lg p-4 ${link.platform === "Frontend Mentor" ? "border border-[#D9D9D9]" : "border-none"}`}
-                                                style={{
-                                                    backgroundColor:
-                                                        platformBgcolor[
-                                                            link.platform.toLowerCase()
-                                                        ],
-                                                }}
+                                                href={link.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                             >
-                                                <div className="flex items-center gap-2">
-                                                    {
-                                                        platformIcons[
-                                                            link.platform.toLowerCase()
-                                                        ]
-                                                    }
-                                                    <span
-                                                        className={`text-base ${link.platform === "Frontend Mentor" ? "text-grey" : "text-white"}`}
-                                                    >
-                                                        {link.platform}
+                                                <div
+                                                    className={`flex h-11 w-full items-center justify-between rounded-lg p-4 ${link.platform === "Frontend Mentor" ? "border border-[#D9D9D9]" : "border-none"}`}
+                                                    style={{
+                                                        backgroundColor:
+                                                            platformBgcolor[
+                                                                link.platform.toLowerCase()
+                                                            ],
+                                                    }}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        {
+                                                            platformIcons[
+                                                                link.platform.toLowerCase()
+                                                            ]
+                                                        }
+                                                        <span
+                                                            className={`text-base ${link.platform === "Frontend Mentor" ? "text-grey" : "text-white"}`}
+                                                        >
+                                                            {link.platform}
+                                                        </span>
+                                                    </div>
+                                                    <span>
+                                                        <ArrowRightIcon
+                                                            className={`${link.platform === "Frontend Mentor" ? "fill-grey" : "fill-white"}`}
+                                                        />
                                                     </span>
                                                 </div>
-                                                <span>
-                                                    <ArrowRightIcon
-                                                        className={`${link.platform === "Frontend Mentor" ? "fill-grey" : "fill-white"}`}
-                                                    />
-                                                </span>
-                                            </div>
+                                            </a>
                                         ))
                                     )}
                                 </div>

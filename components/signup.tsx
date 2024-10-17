@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Button from "../components/button";
+import Button from "./button";
 import PasswordIcon from "@/public/assets/svgs/PasswordIcon";
 import EmailIcon from "@/public/assets/svgs/EmailIcon";
 import { Formik, Form, Field } from "formik";
